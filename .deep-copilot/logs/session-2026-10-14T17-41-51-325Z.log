@@ -1,0 +1,3 @@
+[2026-10-14T17:41:51.326Z] [INIT] Deep Copilot debug log started. file=c:\Users\laksh\OneDrive\Desktop\BNB\games\.deep-copilot\logs\session-2026-10-14T17-41-51-325Z.log
+[2026-10-14T17:41:51.326Z] [ACTIVATE] {"version":"0.32.7"}
+[2026-10-14T17:41:51.327Z] [STATUSBAR_REGISTERED] {"id":"deepseekAgent.statusBar"}
