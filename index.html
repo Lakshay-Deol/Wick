@@ -198,6 +198,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0}
   #surf{left:10px;right:10px;bottom:calc(10px + var(--safe-b));gap:7px}
   #surf .btn.go{min-height:58px;font-size:22px}
   #surf .btn.ghost{min-height:58px;min-width:0;width:29%;padding:0 6px;font-size:12px}
+  #surf .btn.ghost{min-width:68px;padding:0 8px}
   #surf .btn.ghost svg{width:21px;height:21px}
   #haul{width:66px;height:66px;font-size:12px}.mini{width:44px;height:44px}
   #snd{left:10px;bottom:calc(14px + var(--safe-b));width:40px;height:40px}
@@ -225,9 +226,48 @@ button{font:inherit;color:inherit;cursor:pointer;border:0}
   .react-tools{max-width:calc(100vw - 28px)}
   #title{top:calc(70px + var(--safe-t))}
 }
+  #intro{position:fixed;inset:0;z-index:20;display:grid;place-items:center;overflow:hidden;background:#090711;color:#f8ebd0;transition:opacity .8s ease,visibility .8s ease}
+  #intro:before,#intro:after{content:"";position:absolute;inset:-20%;pointer-events:none}
+  #intro:before{background:radial-gradient(ellipse at 20% 20%,#7d3c5f88 0,transparent 38%),radial-gradient(ellipse at 82% 22%,#225d7888 0,transparent 34%),radial-gradient(ellipse at 50% 100%,#cc6c3280 0,transparent 46%),linear-gradient(145deg,#0c1024,#180b1d 48%,#080711);filter:blur(10px);animation:introGlow 9s ease-in-out infinite alternate}
+  #intro:after{opacity:.5;background-image:linear-gradient(115deg,transparent 0 47%,#f9d69310 47.2% 47.5%,transparent 47.8%),linear-gradient(25deg,transparent 0 62%,#8bd4d020 62.2% 62.5%,transparent 62.8%);background-size:100% 100%,100% 100%;transform:scale(1.2)}
+  @keyframes introGlow{to{transform:scale(1.1) rotate(2deg);filter:blur(18px);opacity:.8}}
+  .intro-card{position:relative;z-index:1;width:min(560px,calc(100% - 40px));padding:clamp(32px,7vw,68px) clamp(24px,7vw,72px);text-align:center;border:1px solid #f8d89d33;border-radius:28px;background:linear-gradient(145deg,#24162dcc,#120d1ddd);box-shadow:0 24px 80px #0008,inset 0 1px #fff2;backdrop-filter:blur(14px);animation:introRise .9s cubic-bezier(.2,.8,.3,1) both}
+  @keyframes introRise{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
+  .intro-kicker{margin:0 0 18px;color:#ffbd65;font:700 12px var(--cond);letter-spacing:4px;text-transform:uppercase}
+  .intro-card h2{margin:0;color:#ffe8b0;font:400 clamp(64px,15vw,108px)/.86 var(--slab);letter-spacing:2px;text-shadow:0 5px 0 #713245,0 12px 24px #0008}
+  .intro-card p{margin:18px 0 30px;color:#ddcdb5;font:600 clamp(17px,3vw,21px)/1.35 var(--cond);letter-spacing:.8px}
+  .intro-rule{height:1px;margin:0 auto 22px;width:74px;background:linear-gradient(90deg,transparent,#ffc36e,transparent)}
+  .intro-status{display:flex;align-items:center;justify-content:center;gap:9px;color:#b9b2c0;font:700 12px var(--cond);letter-spacing:2px;text-transform:uppercase}
+  .intro-status i{width:7px;height:7px;border-radius:50%;background:#ffad49;box-shadow:0 0 14px #ffad49;animation:introPulse 1s ease-in-out infinite}
+  @keyframes introPulse{50%{opacity:.35;transform:scale(.7)}}
+  .intro-progress{height:4px;margin-top:18px;overflow:hidden;border-radius:99px;background:#ffffff12}
+  .intro-progress i{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,#ff7048,#ffc761);box-shadow:0 0 16px #ff9e4c;animation:introLoad 5s linear forwards}
+  @keyframes introLoad{to{width:100%}}
+  #intro.is-done{opacity:0;visibility:hidden;pointer-events:none}
+  @media(prefers-reduced-motion:reduce){#intro:before,.intro-card,.intro-progress i{animation:none}.intro-progress i{width:100%}}
 </style>
 </head>
 <body>
+<section id="intro" aria-label="Loading Wick">
+  <div class="intro-card">
+    <p class="intro-kicker">A mining game by lamplight</p>
+    <h2>Wick</h2>
+    <p>Descend into the dark.<br>Bring something brilliant back.</p>
+    <div class="intro-rule"></div>
+    <div class="intro-status"><i></i><span>Lighting the way</span></div>
+    <div class="intro-progress" aria-hidden="true"><i></i></div>
+  </div>
+</section>
+<script>
+  (() => {
+    const intro = document.getElementById('intro');
+    const finish = () => {
+      intro.classList.add('is-done');
+      window.setTimeout(() => intro.remove(), 900);
+    };
+    window.setTimeout(finish, 5000);
+  })();
+</script>
 <div id="app">
   <canvas id="cv" aria-label="Mine cross-section"></canvas>
   <div class="hud" id="hud">
@@ -245,6 +285,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0}
   <div id="goal"></div>
   <div class="dock">
     <div id="surf">
+      <button class="btn ghost" id="bPulley" style="display:none"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5" fill="#f3e7c9" stroke="#120a14" stroke-width="1.4"/><path d="M12 14v8M7 4h10" stroke="#120a14" stroke-width="1.6"/></svg>Pulley</button>
       <button class="btn ghost" id="bShop"><svg viewBox="0 0 24 24"><path d="M3 20l8-8m0 0l-2-2 3-3 3 1 5-5 2 2-5 5 1 3-3 3z" fill="#f3e7c9" stroke="#120a14" stroke-width="1.4" stroke-linejoin="round"/></svg>Workshop</button>
       <button class="btn go" id="bGo">Dig</button>
       <button class="btn ghost" id="bMuseum"><svg viewBox="0 0 24 24"><path d="M12 3l9 5v2H3V8zM5 11h2v7H5zm6 0h2v7h-2zm6 0h2v7h-2zM3 19h18v2H3z" fill="#f3e7c9" stroke="#120a14" stroke-width="1.2" stroke-linejoin="round"/></svg>Relics</button>
@@ -388,17 +429,23 @@ const Core = (() => {
       for (let x = 0; x < W; x++) if (!gaps.has(x) && kind[idx(x, y)] === ROCK) kind[idx(x, y)] = BEDROCK;
     }
     for (let b = 0; b < Math.floor(lv / 2); b++) blob(Math.floor(rnd() * W), 10 + Math.floor(rnd() * 280), 4 + Math.floor(rnd() * 5), (x, y) => { kind[idx(x, y)] = BEDROCK; });
+    const pul = [];
+    for (let k = 0; k < 4; k++) {
+      const y = 50 + k * 60 + Math.floor(rnd() * 8), x = 2 + Math.floor(rnd() * (W - 4));
+      for (let dy = 0; dy < 2; dy++) for (let dx = -1; dx <= 1; dx++) { const i = idx(x + dx, y + dy); if (kind[i] !== RELIC) { kind[i] = AIR; aux[i] = 0; } }
+      pul.push({x, y: y + 1});
+    }
     // the heart chamber
     for (let y = 296; y <= HEART_Y; y++) for (let x = 3; x <= 11; x++) { kind[idx(x, y)] = AIR; aux[idx(x, y)] = 0; }
     if (lv % 10 === 0) for (let x = 0; x < W; x++) kind[idx(x, 295)] = BEDROCK;
     kind[idx(SHAFT, HEART_Y)] = RELIC; aux[idx(SHAFT, HEART_Y)] = 15;
-    return {kind, aux, vr};
+    return {kind, aux, vr, pul};
   }
 
   function blank(seed, lv = 1) {
     const g = generate(seed, lv);
     return {
-      seed, W, H, lv, goal: Levels.spec(lv), hardMul: 1 + 0.025 * lv, oilMul: Math.max(0.7, 1 - 0.006 * lv), found: 0, burns: 0, lvBest: 0, cleared: false, kind: g.kind, aux: g.aux, vr: g.vr, seen: new Uint8Array(W * H),
+      seed, W, H, lv, goal: Levels.spec(lv), hardMul: 1 + 0.025 * lv, oilMul: Math.max(0.7, 1 - 0.006 * lv), found: 0, burns: 0, lvBest: 0, cleared: false, kind: g.kind, aux: g.aux, vr: g.vr, seen: new Uint8Array(W * H), pul: g.pul.map(p => ({x: p.x, y: p.y, on: false})),
       x: SHAFT, y: 0, fromX: SHAFT, fromY: 0, moveP: 1, face: 1, dir: [0, 1],
       up: {pick: 0, oil: 0, pack: 0, glass: 0}, cash: 0, bag: ORES.map(() => 0), oil: UP.oil.val[0],
       relics: Array(16).fill(false), charters: 0, best: 0, bestZone: 0, won: false,
@@ -532,6 +579,9 @@ const Core = (() => {
         if (s.y % ZROWS === 1) { s.atCamp = true; ev.push({t: 'camp', z: zoneAt(s.y)}); } else if (s.atCamp && s.y !== s.fromY) s.atCamp = false;
         const z = zoneAt(s.y);
         if (s.y > 0 && z > s.bestZone) { s.bestZone = z; ev.push({t: 'zone', z}); }
+        for (let q = 0; q < s.pul.length; q++) { const p = s.pul[q];
+          if (!p.on && p.x === s.x && p.y === s.y) { p.on = true; s.oil = Math.min(cap(s, 'oil'), s.oil + 0.3 * cap(s, 'oil')); ev.push({t: 'pulley', i: q}); }
+        }
         reveal(s);
       } else {
         if (k === BEDROCK) { s.dig = null; s.hitT += dt; if (s.hitT >= HIT_EVERY) { s.hitT = 0; ev.push({t: 'clang', x: nx, y: ny}); } return ev; }
@@ -576,6 +626,13 @@ const Core = (() => {
     return n;
   }
   function next(s) { return create({seed: Levels.seed(s.lv + 1), lv: s.lv + 1, up: s.up, relics: s.relics, charters: s.charters, cash: s.cash}); }
+  function ride(s, i) {
+    const p = s.pul[i]; if (!p || !p.on || s.y !== 0 || s.mode !== 'dive') return [];
+    s.oil = Math.max(1, s.oil - 0.15 * cap(s, 'oil'));
+    s.x = s.fromX = p.x; s.y = s.fromY = p.y; s.moveP = 1; s.dig = null;
+    if (p.y > s.best) s.best = p.y; if (p.y > s.lvBest) s.lvBest = p.y; s.bestZone = Math.max(s.bestZone, zoneAt(p.y));
+    reveal(s); return [{t: 'ride', i}];
+  }
   function plantTorch(s) {
     if (s.y === 0 || s.mode !== 'dive') return false;
     if (s.torches.some(t => t.x === s.x && t.y === s.y)) return false;
@@ -590,7 +647,7 @@ const Core = (() => {
     for (let i = 0; i < W * H; i++) if (s.kind[i] === AIR && base[i] !== AIR) bits[i >> 3] |= 1 << (i & 7);
     let b = ''; bits.forEach(v => b += String.fromCharCode(v));
     return {v: 1, seed: s.seed, cash: s.cash, up: [s.up.pick, s.up.oil, s.up.pack, s.up.glass], bag: s.bag.slice(), oil: Math.round(s.oil * 10) / 10,
-      x: s.x, y: s.y, relics: s.relics.reduce((a, r, i) => a | (r ? 1 << i : 0), 0), charters: s.charters, best: s.best, bestZone: s.bestZone, won: s.won, lv: s.lv, found: s.found, burns: s.burns, lb: s.lvBest, dug: btoaSafe(b),
+      x: s.x, y: s.y, relics: s.relics.reduce((a, r, i) => a | (r ? 1 << i : 0), 0), charters: s.charters, best: s.best, bestZone: s.bestZone, won: s.won, lv: s.lv, pu: s.pul.reduce((a, p, i) => a | (p.on ? 1 << i : 0), 0), found: s.found, burns: s.burns, lb: s.lvBest, dug: btoaSafe(b),
       oreMined: s.oreMined.slice(), sold: s.sold, bestHaul: s.bestHaul, flasks: s.flasks, torches: s.torches.slice(), dynamite: s.dynamite,
       demand: s.demand.slice(), contract: s.contract, gas: s.gas, atCamp: s.atCamp};
   }
@@ -619,7 +676,7 @@ const Core = (() => {
       let left = cap(s, 'pack'); s.bag = s.bag.map(n => { const m = Math.min(n, left); left -= m; return m; });
       const raw = atobSafe(String(o.dug || ''));
       for (let i = 0; i < W * H && (i >> 3) < raw.length; i++) if (raw.charCodeAt(i >> 3) >> (i & 7) & 1 && s.kind[i] !== AIR) { s.kind[i] = AIR; s.aux[i] = 0; }
-      s.found = int(o.found, 0, 99, 0); s.burns = int(o.burns, 0, 99, 0); s.lvBest = int(o.lb, 0, HEART_Y, 0); Levels.gate(s);
+      s.found = int(o.found, 0, 99, 0); const pb = int(o.pu, 0, 15, 0); s.pul.forEach((p, i) => { p.on = !!(pb >> i & 1); }); s.burns = int(o.burns, 0, 99, 0); s.lvBest = int(o.lb, 0, HEART_Y, 0); Levels.gate(s);
       s.x = int(o.x, 0, W - 1, SHAFT); s.y = int(o.y, 0, H - 1, 0);
       if (s.kind[idx(s.x, s.y)] !== AIR) { s.x = SHAFT; s.y = 0; }
       s.fromX = s.x; s.fromY = s.y;
@@ -630,12 +687,13 @@ const Core = (() => {
         s.seen[idx(x, y)] = 1;
         for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { const a = x + dx, b = y + dy; if (a >= 0 && a < W && b >= 0 && b < H) s.seen[idx(a, b)] = 1; }
       }
+      s.pul.forEach(p => { if (!p.on) for (let dy = -1; dy <= 0; dy++) for (let dx = -1; dx <= 1; dx++) s.seen[idx(p.x + dx, p.y + dy)] = 0; });
       reveal(s, true);
       return s;
     } catch (e) { return null; }
   }
 
-  return {W, H, SHAFT, HEART_Y, AIR, ROCK, ORE, LAVA, RELIC, BEDROCK, FLASK, GAS, Levels, next, ZONES, ORES, RELICS, UP, TRACKS, IDLE, BASE_DIG,
+  return {W, H, SHAFT, HEART_Y, AIR, ROCK, ORE, LAVA, RELIC, BEDROCK, FLASK, GAS, Levels, next, ride, ZONES, ORES, RELICS, UP, TRACKS, IDLE, BASE_DIG,
     create, generate, step, haul, camp, buy, buyDynamite, useDynamite, claimContract, price, charter, plantTorch, pack, unpack, idx, zoneAt, depthM, lightRadius, bagCount, cap, lvl, mult, digTime, oilFrac, hardOf, mulberry};
 })();
 </script>
@@ -981,6 +1039,14 @@ const Render = (() => {
       }
       ctx.globalAlpha = 1;
 
+      for (const p of s.pul) { if (!seen[p.y * W + p.x]) continue;
+        const cx = ox + (p.x + 0.5) * C, ty = oy + (p.y - 1) * C;
+        ctx.fillStyle = '#3a3347'; ctx.fillRect(cx - C * 0.9, ty, C * 1.8, S * 2);
+        ctx.fillStyle = '#c8b79c'; ctx.fillRect(cx - S / 2, ty, S, C * 1.9);
+        ctx.fillStyle = p.on ? '#ffb43b' : '#8a8294'; ctx.beginPath(); ctx.arc(cx, ty + C * 0.32, C * 0.26, 0, 7); ctx.fill();
+        ctx.strokeStyle = '#120a14'; ctx.lineWidth = S; ctx.stroke();
+        ctx.fillStyle = '#120a14'; ctx.fillRect(cx - S, ty + C * 0.32 - S, S * 2, S * 2); }
+
       // light: one pixel per cell, stretched with smoothing, so the dark has soft edges
       const cols = c1 - c0 + 3, rows = r1 - r0 + 3, SS = 3, lw = cols * SS, lh = rows * SS;
       if (lightC.width !== lw || lightC.height !== lh) { lightC.width = glowC.width = lw; lightC.height = glowC.height = lh; }
@@ -1086,8 +1152,10 @@ const Render = (() => {
 <script id="main">
 (() => {
   const $ = id => document.getElementById(id);
-  const KEY = 'wick.v2', MUTE = 'wick.mute', SEEN = 'wick.seen';
+  const KEY = 'wick.v3', MUTE = 'wick.mute', SEEN = 'wick.seen';
   const ZC = ['#e0955f', '#f2efd9', '#8fd3d9', '#ff9a55', '#9da2ff'];
+  const BN = ['Tin Lamp', 'Copper Pick', 'Iron Wick', 'Silver Seam', 'Gold Vein', 'Ruby Deep', 'Sapphire Hush', 'Amethyst Hollow', 'Voidstone Heart', 'Deep Heart'];
+  const BCOL = ['#b9a77a', '#e9803f', '#9aa7ba', '#dfeef5', '#ffd13a', '#ff3b54', '#3f9bff', '#b673ff', '#7cffdc', '#ff5f7e'];
   const fmt = n => Math.round(n).toLocaleString('en-US');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const store = {get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }};
@@ -1186,6 +1254,7 @@ const Render = (() => {
     el.goil.classList.toggle('gas-active', s.gas > 0);
     const under = s.y > 0 && s.mode === 'dive';
     el.haul.classList.toggle('hide', !under); el.haul.classList.toggle('pulse', under && (low || full));
+    $('bPulley').style.display = s.pul.some(p => p.on) ? '' : 'none';
     if (s.y > 0 || s.dig) el.hint.classList.add('hide');
     const surf = s.y === 0 && s.mode === 'dive' && !s.dig && !sheetOpen && !autoDown;
     el.surf.classList.toggle('hide', !surf);
@@ -1250,7 +1319,7 @@ const Render = (() => {
   }
   function relics() {
     const n = s.relics.filter(Boolean).length;
-    openSheet(`<h2>Relics</h2><div class="sub">${n} of 16 found · prices +${n * 2}%${s.charters ? ' · charter ×' + (1 + 0.2 * s.charters).toFixed(1) : ''}</div><div class="relics" id="rg"></div><div class="relicname" id="rn">Tap one</div><button class="btn" id="rDone">Close</button>`);
+    openSheet(`<h2>Relics</h2><div class="sub">${n} of 16 found · prices +${n * 2}%${s.charters ? ' · charter ×' + (1 + 0.2 * s.charters).toFixed(1) : ''}</div><div class="relics" id="rg"></div><div class="relicname" id="rn">Tap one</div><div class="sub">Badges · tap to share</div><div id="bg" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px"></div><button class="btn" id="rDone">Close</button>`);
     const g = $('rg');
     Core.RELICS.forEach((name, i) => {
       const d = document.createElement('div'); d.className = 'rl' + (s.relics[i] ? '' : ' no') + (justFound === i ? ' new' : '');
@@ -1259,13 +1328,41 @@ const Render = (() => {
       d.onclick = () => { $('rn').textContent = s.relics[i] ? name : '? ? ?'; Snd.uiTap(); };
       g.appendChild(d);
     });
+    const have = +store.get('wick.badge') || 0;
+    for (let lv = 5; lv <= 50; lv += 5) { const b = document.createElement('button'); b.className = 'btn ghost'; b.textContent = lv; b.disabled = have < lv; b.style.cssText = 'width:auto;min-height:44px;padding:0 14px;font-size:16px'; b.onclick = () => shareCard(lv); $('bg').appendChild(b); }
     $('rDone').onclick = () => { Snd.uiTap(); closeSheet(); };
   }
   let justFound = -1;
   let pendingLevel = false, clanged = false;
+  function cardCanvas(lv) {
+    const W = 1200, H = 630, c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
+    const g = x.createLinearGradient(0, 0, 0, H); ['#1a1233', '#3a1d52', '#7a2f5c', '#d65a4b'].forEach((col, i) => g.addColorStop(i / 3, col)); x.fillStyle = g; x.fillRect(0, 0, W, H);
+    for (let i = 0; i < 60; i++) { x.fillStyle = 'rgba(255,244,214,' + (0.2 + Art.hash(i, 1) * 0.6) + ')'; x.fillRect(Art.hash(i, 2) * W, Art.hash(i, 3) * H * 0.6, 3, 3); }
+    x.fillStyle = '#120a14'; x.fillRect(0, 500, W, 130);
+    const col = BCOL[lv / 5 - 1], cx = 280, cy = 290, gl = x.createRadialGradient(cx, cy, 10, cx, cy, 240);
+    gl.addColorStop(0, col + 'aa'); gl.addColorStop(1, col + '00'); x.fillStyle = gl; x.fillRect(cx - 240, cy - 240, 480, 480);
+    [[150, '#120a14'], [136, col], [106, '#120a14']].forEach(([r, f]) => { x.fillStyle = f; x.beginPath(); x.arc(cx, cy, r, 0, 7); x.fill(); });
+    x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillStyle = col; x.font = '400 110px "Alfa Slab One",Impact,serif'; x.fillText(lv, cx, cy + 6);
+    x.textAlign = 'left'; const SL = '"Alfa Slab One",Impact,serif', CD = '"Barlow Condensed","Arial Narrow",sans-serif';
+    x.fillStyle = '#d9c9a2'; x.font = '700 30px ' + CD; x.fillText('WICK · DIG BY LAMPLIGHT', 520, 150);
+    x.fillStyle = col; x.font = '400 78px ' + SL; x.fillText(BN[lv / 5 - 1], 520, 240);
+    x.fillStyle = '#f3e7c9'; x.font = '400 44px ' + SL; x.fillText('Level ' + lv + ' of 50 cleared', 520, 330);
+    x.font = '700 36px ' + CD; x.fillText(s.relics.filter(Boolean).length + '/16 relics  ·  deepest ' + Core.depthM(s.best) + ' m', 520, 400);
+    x.fillStyle = '#ffb43b'; x.font = '700 28px ' + CD; x.fillText('PROJECT TREETOP · ROUND 01', 40, 575);
+    return c;
+  }
+  async function shareCard(lv) {
+    const c = cardCanvas(lv), text = `I cleared level ${lv} of Wick and earned the ${BN[lv / 5 - 1]} badge. Built for @twigpine Project Treetop #ProjectTreetop`;
+    const blob = await new Promise(r => c.toBlob(r, 'image/png')), file = new File([blob], 'wick-badge-' + lv + '.png', {type: 'image/png'}), url = location.href.split('?')[0];
+    try { if (navigator.canShare && navigator.canShare({files: [file]})) { await navigator.share({files: [file], text: text + ' ' + url}); return; } } catch (e) { if (e && e.name === 'AbortError') return; }
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = file.name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + '&url=' + encodeURIComponent(url), '_blank', 'noopener'); toast('Card saved: attach it to your post', 3500);
+  }
   function levelCard() {
-    const bonus = Core.Levels.bonus(s.lv), fin = s.lv >= 50; s.cash += bonus; save();
-    openSheet(`<h2>Level ${s.lv} cleared</h2><div class="sub">${fin ? 'The mine is finished' : 'Bonus paid ' + fmt(bonus)}</div><p style="font:600 19px var(--cond);margin:0 0 14px;color:#4a3216">${fin ? 'All 50 levels done. Sign a new charter to start again with +20% prices.' : 'Next: ' + Core.Levels.text(Core.Levels.preview(s.lv + 1))}</p><button class="btn" id="lNext">${fin ? 'Sign a new charter' : 'Level ' + (s.lv + 1)}</button>`);
+    const bonus = Core.Levels.bonus(s.lv), fin = s.lv >= 50, badge = s.lv % 5 === 0; s.cash += bonus;
+    if (badge && s.lv > (+store.get('wick.badge') || 0)) store.set('wick.badge', String(s.lv)); save();
+    openSheet(`<h2>Level ${s.lv} cleared</h2><div class="sub">${badge ? BN[s.lv / 5 - 1] + ' badge earned · ' : ''}${fin ? 'The mine is finished' : 'Bonus paid ' + fmt(bonus)}</div><p style="font:600 19px var(--cond);margin:0 0 14px;color:#4a3216">${fin ? 'All 50 levels done. Sign a new charter to start again with +20% prices.' : 'Next: ' + Core.Levels.text(Core.Levels.preview(s.lv + 1))}</p>${badge ? '<button class="btn ghost" id="lShare" style="margin-bottom:10px">Share badge card</button>' : ''}<button class="btn" id="lNext">${fin ? 'Sign a new charter' : 'Level ' + (s.lv + 1)}</button>`);
+    if (badge) { const cc = cardCanvas(s.lv); cc.style.cssText = 'width:100%;border-radius:12px;margin:0 0 12px'; el.sheet.insertBefore(cc, $('lShare')); const lv = s.lv; $('lShare').onclick = () => shareCard(lv); }
     $('lNext').onclick = () => { Snd.uiTap(); s = fin ? Core.charter(s, randSeed()) : Core.next(s); R.cam.init = false; for (const k in last) delete last[k]; closeSheet(); save(); };
   }
   function heartCard() {
@@ -1318,6 +1415,12 @@ const Render = (() => {
   $('bGo').onclick = () => { Snd.init(); Snd.uiTap(); autoDown = true; store.set(SEEN, '1'); el.hint.classList.add('hide'); };
   $('bShop').onclick = () => { Snd.init(); Snd.uiTap(); workshop(); };
   $('bMuseum').onclick = () => { Snd.init(); Snd.uiTap(); justFound = -1; relics(); };
+  function pulleys() {
+    openSheet(`<h2>Pulleys</h2><div class="sub">Ride down to a lit rope · costs 15% oil</div>${s.pul.map((p, i) => `<div class="row" style="opacity:1;transform:none;animation:none"><span class="n">Pulley ${i + 1}<small>${Core.depthM(p.y)} m</small></span>${p.on ? `<button class="btn" data-i="${i}" style="width:auto;min-height:44px;font-size:16px;padding:0 18px">Ride</button>` : '<span class="v" style="font-size:15px;color:#6a4c22">Unlit</span>'}</div>`).join('')}<div style="height:12px"></div><button class="btn" id="pDone">Back</button>`);
+    $('pDone').onclick = () => { Snd.uiTap(); closeSheet(); };
+    el.sheet.querySelectorAll('button[data-i]').forEach(b => b.onclick = () => { Snd.haul(1); const ev = Core.ride(s, +b.dataset.i); closeSheet(); handle(ev); });
+  }
+  $('bPulley').onclick = () => { Snd.init(); Snd.uiTap(); pulleys(); };
   $('haul').onclick = () => { Snd.init(); const ev = Core.haul(s); handle(ev); };
   const sicon = () => { $('sndi').innerHTML = Snd.muted ? '<path d="M4 9h4l5-4v14l-5-4H4z" fill="#f3e7c9"/><path d="M16 9l5 6m0-6l-5 6" stroke="#f3e7c9" stroke-width="2" stroke-linecap="round"/>' : '<path d="M4 9h4l5-4v14l-5-4H4z" fill="#f3e7c9"/><path d="M16 9c2 2 2 4 0 6M18.5 6.5c4 3.5 4 7.5 0 11" stroke="#f3e7c9" stroke-width="2" fill="none" stroke-linecap="round"/>'; };
   sicon(); $('snd').onclick = () => { Snd.init(); Snd.setMuted(!Snd.muted); sicon(); };
@@ -1344,6 +1447,8 @@ const Render = (() => {
         case 'gas': haptic([10, 20, 10]); toast('Gas pocket! The lamp is burning faster', 2200); break;
         case 'dynamite': haptic([25, 35, 25]); Snd.brk(z); R.kick(1.2); toast(e.lava ? 'Dynamite ignited lava!' : 'Blast cleared ' + e.cleared + ' cells', 1800); break;
         case 'clang': Snd.deny(); R.kick(0.2); R.burst(e.x, e.y, ['#6a5f7a', '#3a3347'], 3, 0.6); if (!clanged) { clanged = true; toast('Bedrock: dig around it'); } break;
+        case 'pulley': Snd.cash(); R.flashScreen('#ffb43b', 0.25); toast('Pulley lit · lamp topped up', 2200); save(); break;
+        case 'ride': R.cam.init = false; toast('Rode down the rope', 1400); save(); break;
         case 'gate': R.flashScreen('#ffe9a8', 0.4); Snd.relic(); toast('The seal cracks open', 2600); break;
         case 'camp': toast('Camp reached · you can sell safely', 2000); break;
         case 'campSold': toast('Camp provisions paid out', 1600); break;
