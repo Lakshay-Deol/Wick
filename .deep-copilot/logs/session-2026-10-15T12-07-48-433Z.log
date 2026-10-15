@@ -1,6 +1,0 @@
-[2026-10-15T12:07:48.435Z] [INIT] Deep Copilot debug log started. file=c:\Users\laksh\OneDrive\Desktop\BNB\games\.deep-copilot\logs\session-2026-10-15T12-07-48-433Z.log
-[2026-10-15T12:07:48.439Z] [ACTIVATE] {"version":"0.43.1"}
-[2026-10-15T12:07:48.442Z] [PROVIDERS_LOADED] {"count":4,"ids":["anthropic","custom","deepseek","openai"]}
-[2026-10-15T12:07:48.443Z] [TERMINAL_MONITOR_STARTED] {}
-[2026-10-15T12:07:48.444Z] [STATUSBAR_REGISTERED] {"id":"deepseekAgent.statusBar"}
-[2026-10-15T12:07:48.471Z] [INLINE_COMPLETION_REGISTERED]
