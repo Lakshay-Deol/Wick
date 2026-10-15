@@ -74,7 +74,8 @@ button{font:inherit;color:inherit;cursor:pointer;border:0}
 #title p{margin:10px 0 0;font:700 15px var(--cond);letter-spacing:4px;text-transform:uppercase;color:#f3c9a0}
 #title.hide{opacity:0}
 
-#toast{position:absolute;left:50%;top:calc(150px + var(--safe-t));translate:-50% 0;padding:10px 18px;border-radius:12px;background:#120a14ee;box-shadow:inset 0 0 0 2px var(--amber);font:700 18px var(--cond);letter-spacing:1.5px;text-transform:uppercase;color:var(--cream);opacity:0;pointer-events:none;transition:opacity .25s,translate .3s cubic-bezier(.2,.8,.3,1);width:max-content;max-width:86vw;text-align:center}
+#goal{position:absolute;left:0;right:0;top:calc(128px + var(--safe-t));text-align:center;font:700 16px var(--cond);letter-spacing:2px;text-transform:uppercase;color:var(--amber);text-shadow:0 2px 0 #000;pointer-events:none;padding:0 12px}
+#toast{position:absolute;left:50%;top:calc(165px + var(--safe-t));translate:-50% 0;padding:10px 18px;border-radius:12px;background:#120a14ee;box-shadow:inset 0 0 0 2px var(--amber);font:700 18px var(--cond);letter-spacing:1.5px;text-transform:uppercase;color:var(--cream);opacity:0;pointer-events:none;transition:opacity .25s,translate .3s cubic-bezier(.2,.8,.3,1);width:max-content;max-width:86vw;text-align:center}
 #toast.on{opacity:1;translate:-50% 8px}
 #zonebanner{position:absolute;left:0;right:0;top:19%;text-align:center;pointer-events:none;opacity:0;transform:scale(.92);transition:opacity .5s,transform .6s cubic-bezier(.2,.8,.3,1)}
 #zonebanner.on{opacity:1;transform:none}
@@ -129,6 +130,36 @@ button{font:inherit;color:inherit;cursor:pointer;border:0}
 .react-card h2{margin:0 0 12px;font:400 28px var(--slab)}.react-card p{font:600 17px var(--cond);color:#6a4c22}
 .react-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:14px 0}.react-stat{padding:12px;border-radius:10px;background:#dbc795}.react-stat b{display:block;font:400 25px var(--slab)}.react-stat span{font:700 13px var(--cond);letter-spacing:1px;text-transform:uppercase;color:#6a4c22}
 .react-ores{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;font:700 16px var(--cond)}.react-card .btn{width:100%;margin-top:14px}
+.level-panel{align-items:stretch;padding:0;background:linear-gradient(#0b0711dd,#120a14f5)}
+.level-page{width:min(900px,100%);height:100%;max-height:none;overflow:hidden;border-radius:0;padding:calc(18px + var(--safe-t)) 18px calc(18px + var(--safe-b));background:linear-gradient(#2a1730,#120a14 58%,#09070d);color:var(--cream);box-shadow:none;position:relative}
+.level-page:before{content:"";position:absolute;left:0;right:0;bottom:0;height:43%;opacity:.65;background:linear-gradient(150deg,transparent 0 18%,#3d2634 18% 20%,transparent 20% 36%,#281a2b 36% 38%,transparent 38% 57%,#422331 57% 60%,transparent 60%);pointer-events:none}
+.level-head,.level-road{position:relative;z-index:1}
+.level-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin:0 auto 12px;max-width:760px}
+.level-kicker{font:700 14px var(--cond);letter-spacing:3px;text-transform:uppercase;color:#ffb43b}
+.level-head h2{margin:2px 0 3px;color:#ffe3a1;font:400 clamp(28px,7vw,46px)/1 var(--slab);text-shadow:0 4px 0 #7a2f2a}
+.level-head p{margin:0;color:#d9c9a2;font:600 17px var(--cond)}
+.level-close{width:44px!important;min-height:44px!important;margin:0!important;padding:0!important;border-radius:50%!important}
+.level-road{height:calc(100% - 106px);overflow:auto;padding:12px 0 70px;scroll-behavior:smooth}
+.level-track{width:min(760px,100%);min-height:850px;margin:0 auto;position:relative;padding:10px 0}
+.level-track:before{content:"";position:absolute;top:0;bottom:0;left:50%;width:12px;transform:translateX(-50%);border-radius:8px;background:linear-gradient(#c28a2b,#ffb43b 22%,#7a3e34 55%,#4a2c65);box-shadow:0 0 0 4px #120a1488,0 0 30px #ffb43b44}
+.level-node{position:relative;width:50%;min-height:135px;padding:10px 34px 10px 0;display:flex;justify-content:flex-end}
+.level-node:nth-child(even){margin-left:50%;padding:10px 0 10px 34px;justify-content:flex-start}
+.level-node:nth-child(3n){transform:translateX(-12px)}.level-node:nth-child(3n+1){transform:translateX(12px)}
+.level-dot{position:absolute;right:-19px;top:35px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#25152b;border:4px solid #6a4560;color:#d9c9a2;font:400 18px var(--slab);box-shadow:0 4px 0 #09070d}
+.level-node:nth-child(even) .level-dot{left:-19px;right:auto}
+.level-node.unlocked .level-dot{background:linear-gradient(#ffca52,#dc7620);border-color:#ffe09a;color:#241326}
+.level-node.current .level-dot{box-shadow:0 0 0 7px #ffb43b33,0 4px 0 #09070d;animation:levelpulse 1.5s ease-in-out infinite}
+.level-node.cleared .level-dot{background:#7fcf6a;border-color:#d8ffbd}
+@keyframes levelpulse{50%{transform:scale(1.1)}}
+.level-card{width:min(255px,100%);min-height:105px;padding:12px;border-radius:16px;background:linear-gradient(135deg,#f5e6bd,#cdaa6d);color:#241326;box-shadow:0 6px 0 #09070d,0 0 0 2px #8d653d;cursor:pointer;text-align:left}
+.level-card:disabled{cursor:not-allowed;filter:saturate(.35) brightness(.65)}
+.level-card:hover:not(:disabled){transform:translateY(-3px)}
+.level-card-top{display:flex;align-items:center;justify-content:space-between;font:400 21px var(--slab)}
+.level-card-top small{font:700 12px var(--cond);letter-spacing:1px;color:#6a4225}
+.level-card strong{display:block;margin-top:8px;font:700 16px var(--cond);letter-spacing:.3px}
+.level-card span{display:block;margin-top:3px;font:600 14px var(--cond);color:#6a4225}
+.level-card .lock{font-size:20px}
+@media(max-width:520px){.level-node{padding-right:25px}.level-node:nth-child(even){padding-left:25px}.level-node:nth-child(3n){transform:none}.level-node:nth-child(3n+1){transform:none}.level-card{max-width:190px}.level-track:before{width:9px}.level-dot{width:32px;height:32px;right:-16px;font-size:15px}.level-node:nth-child(even) .level-dot{left:-16px}}
 .gas-active .bar{animation:warn .25s steps(2) infinite}.gas-active svg{filter:hue-rotate(100deg)}
 .tour-card{text-align:center}.tour-card .tour-icon{font-size:42px;line-height:1;margin:4px 0 14px}.tour-card h2{margin-bottom:8px}.tour-card p{margin:0 auto 14px;max-width:420px}.tour-dots{display:flex;justify-content:center;gap:6px;margin:12px 0}.tour-dots i{width:8px;height:8px;border-radius:50%;background:#c5b181}.tour-dots i.on{background:#a8630b;transform:scale(1.25)}.tour-actions{display:flex;gap:9px}.tour-actions .btn{flex:1}.tour-actions .btn.skip{background:transparent;color:#6a4c22;box-shadow:none;font:700 16px var(--cond)}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
@@ -139,6 +170,52 @@ button{font:inherit;color:inherit;cursor:pointer;border:0}
 .total b.pop{animation:stamp .45s cubic-bezier(.2,1.6,.4,1)}@keyframes stamp{0%{transform:scale(1.5);opacity:.3}100%{transform:none;opacity:1}}
 .up .buy[data-no]{background:#cdb98a;color:#5a4220;box-shadow:inset 0 0 0 2px #a8905a}.up .buy[data-no] small{opacity:1}
 .note{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:10px;background:#7a2f2a;color:#fff1d6;font:700 18px var(--cond)}
+
+/* Mobile-first layout: compact controls and clear vertical zones come first. */
+@media(max-width:699px){
+  .hud{padding:calc(8px + var(--safe-t)) 12px 24px;grid-template-columns:1fr auto;gap:4px 8px}
+  .depth b{font-size:clamp(30px,10vw,42px)}
+  .depth>span{font-size:12px;letter-spacing:1.7px}
+  .cash{padding-top:3px;gap:5px}.cash b{font-size:clamp(22px,7vw,30px)}.coin{width:19px;height:19px}
+  .gauges{gap:8px}.g{gap:5px}.g svg{width:23px;height:23px}.bar{height:16px}.g em{font-size:16px;min-width:28px}
+  .pack{padding:2px 7px 2px 5px}.pack em{font-size:16px}
+  #goal{top:calc(190px + var(--safe-t));font-size:13px;letter-spacing:1.25px;line-height:1.1}
+  #toast{top:calc(220px + var(--safe-t));font-size:15px;padding:8px 12px}
+  #title{top:calc(98px + var(--safe-t));padding:0 12px}
+  #title h1{font-size:clamp(48px,17vw,72px)}
+  #title p{margin-top:6px;font-size:12px;letter-spacing:3px}
+  #hint{top:53%;font-size:18px}#hint small{font-size:13px;letter-spacing:1.5px}
+  .dock{padding:0 10px calc(10px + var(--safe-b));gap:8px}
+  #surf{left:10px;right:10px;bottom:calc(10px + var(--safe-b));gap:7px}
+  #surf .btn.go{min-height:58px;font-size:22px}
+  #surf .btn.ghost{min-height:58px;min-width:0;width:29%;padding:0 6px;font-size:12px}
+  #surf .btn.ghost svg{width:21px;height:21px}
+  #haul{width:66px;height:66px;font-size:12px}.mini{width:44px;height:44px}
+  #snd{left:10px;bottom:calc(14px + var(--safe-b));width:40px;height:40px}
+  .react-tools{left:8px;right:8px;top:calc(6px + var(--safe-t));justify-content:center;align-items:center;flex-wrap:wrap;gap:4px;max-height:76px;overflow:hidden}
+  .react-tools button{min-height:34px;padding:0 8px;border-radius:9px;font-size:12px;letter-spacing:.3px}
+  .sheet{width:100%;max-height:91%;padding:16px 14px calc(14px + var(--safe-b));border-radius:18px 18px 0 0}
+  .sheet h2{font-size:24px}.sheet .sub{font-size:12px}
+  .up{grid-template-columns:40px 1fr auto;gap:2px 8px;padding:9px 0}.up .ic{width:40px;height:40px}.up .buy{min-height:44px;padding:0 9px;font-size:15px}
+  .relics{gap:7px}.rl{border-radius:10px}
+  .react-panel{padding:0}
+  .react-card{width:calc(100% - 24px);max-height:90vh;border-radius:16px;padding:16px}
+  .react-card h2{font-size:24px}.react-card p{font-size:16px}
+  .level-page{padding:calc(12px + var(--safe-t)) 10px calc(12px + var(--safe-b))}
+  .level-head{margin-bottom:4px}.level-kicker{font-size:11px;letter-spacing:2px}.level-head h2{font-size:30px}.level-head p{font-size:15px}
+  .level-road{height:calc(100% - 91px);padding-top:4px}
+  .level-track{min-height:1240px;padding-top:0}
+  .level-track:before{width:8px}
+  .level-node{min-height:105px;padding-right:22px}.level-node:nth-child(even){padding-left:22px}
+  .level-dot{top:28px;width:30px;height:30px;right:-15px;border-width:3px;font-size:13px}.level-node:nth-child(even) .level-dot{left:-15px}
+  .level-card{min-height:82px;max-width:calc(100% - 4px);padding:9px;border-radius:12px}
+  .level-card-top{font-size:16px}.level-card-top small{font-size:9px}.level-card strong{margin-top:5px;font-size:14px}.level-card span{font-size:12px}
+  .level-close{width:40px!important;min-height:40px!important}
+}
+@media(min-width:700px){
+  .react-tools{max-width:calc(100vw - 28px)}
+  #title{top:calc(70px + var(--safe-t))}
+}
 </style>
 </head>
 <body>
@@ -156,6 +233,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0}
   <div id="hint">Drag to dig<small>hold your thumb anywhere</small></div>
   <div id="zonebanner"><small>Entering</small><b id="zbname"></b></div>
   <div id="toast"></div>
+  <div id="goal"></div>
   <div class="dock">
     <div id="surf">
       <button class="btn ghost" id="bShop"><svg viewBox="0 0 24 24"><path d="M3 20l8-8m0 0l-2-2 3-3 3 1 5-5 2 2-5 5 1 3-3 3z" fill="#f3e7c9" stroke="#120a14" stroke-width="1.4" stroke-linejoin="round"/></svg>Workshop</button>
@@ -174,7 +252,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0}
 <script id="core">
 const Core = (() => {
   const W = 15, H = 301, SHAFT = 7, ZROWS = 60, HEART_Y = 300;
-  const AIR = 0, ROCK = 1, ORE = 2, LAVA = 3, RELIC = 4, FLASK = 5, GAS = 6;
+  const AIR = 0, ROCK = 1, ORE = 2, LAVA = 3, RELIC = 4, BEDROCK = 5, FLASK = 6, GAS = 7;
   const ZONES = [
     {name: 'Clay Hollow', hard: 1.0, cost: 1.1},
     {name: 'Chalk Vaults', hard: 1.5, cost: 1.5},
@@ -207,12 +285,53 @@ const Core = (() => {
   };
   const BASE_DIG = 0.5, IDLE = 0.4, MOVE = 0.085, MOVE_COST = 0.03, LAVA_COST = 12, HIT_EVERY = 0.16;
 
+  const Levels = {
+    seed: n => n * 7919 + 13,
+    bonus: n => Math.round(30 * n * (1 + 0.1 * n)),
+    spec(n) {
+      if (n % 10 === 0) return {type: 'heart', need: 3 + Math.floor(n / 5)};
+      const k = ['relics', 'depth', 'ore', 'earn', 'clean'][(n - 1) % 5];
+      if (k === 'relics') return {type: k, n: Math.min(13, 1 + Math.floor(n / 4))};
+      if (k === 'depth') return {type: k, n: Math.min(280, 20 + n * 5)};
+      if (k === 'ore') return {type: k, ore: Math.min(6, Math.floor(n / 8)), n: 3 + Math.floor(n / 6)};
+      if (k === 'earn') return {type: k, n: Math.round(40 * Math.pow(1.13, n))};
+      return {type: k, n: Math.min(12, 1 + Math.floor(n / 5))};
+    },
+    preview: n => ({goal: Levels.spec(n), found: 0, lvBest: 0, burns: 0}),
+    text(s) {
+      const g = s.goal, f = Math.min(s.found, g.n || g.need);
+      switch (g.type) {
+        case 'relics': return `Bring up ${g.n} relics · ${f}/${g.n}`;
+        case 'depth': return `Reach ${g.n * 2} m and return · best ${s.lvBest * 2} m`;
+        case 'ore': return `Sell ${g.n} ${ORES[g.ore].name} in one haul`;
+        case 'earn': return `Earn ${g.n} in one haul`;
+        case 'clean': return `${g.n} relics, no lava · ${f}/${g.n}${s.burns ? ' · burned' : ''}`;
+        default: return `Collect ${g.need} relics (${f}/${g.need}), open the seal, take the Heart`;
+      }
+    },
+    gate(s, ev) {
+      const g = s.goal; if (g.type !== 'heart' || s.found < g.need) return;
+      let ch = false;
+      for (let x = 0; x < W; x++) if (s.kind[idx(x, 295)] === BEDROCK) { s.kind[idx(x, 295)] = ROCK; ch = true; }
+      if (ch && ev) ev.push({t: 'gate'});
+    },
+    check(s, ev, sold) {
+      const g = s.goal; let ok = false;
+      if (g.type === 'relics') ok = s.found >= g.n;
+      else if (g.type === 'depth') ok = s.lvBest >= g.n;
+      else if (g.type === 'ore') ok = !!sold && sold.items.some(i => i.ore === g.ore && i.n >= g.n);
+      else if (g.type === 'earn') ok = !!sold && sold.total >= g.n;
+      else if (g.type === 'clean') ok = s.found >= g.n && s.burns === 0;
+      else ok = s.won;
+      if (ok && !s.cleared) { s.cleared = true; ev.push({t: 'level', lv: s.lv}); }
+    },
+  };
   const mulberry = a => () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
   const idx = (x, y) => y * W + x;
   const zoneAt = y => Math.max(0, Math.min(4, Math.floor((y - 1) / ZROWS)));
   const depthM = y => y * 2;
 
-  function generate(seed) {
+  function generate(seed, lv = 1) {
     const rnd = mulberry(seed >>> 0 || 1);
     const kind = new Uint8Array(W * H).fill(ROCK), aux = new Uint8Array(W * H), vr = new Uint8Array(W * H);
     for (let i = 0; i < kind.length; i++) vr[i] = Math.floor(rnd() * 4);
@@ -254,16 +373,23 @@ const Core = (() => {
       }
     }
     for (let z = 0; z < 5; z++) kind[idx(SHAFT, z * ZROWS + 1)] = AIR;
+    const gapRows = Math.max(5, 14 - Math.floor(lv / 5)), holes = Math.max(1, 5 - Math.floor(lv / 12));
+    for (let y = 12; y < 290; y += gapRows) {
+      const gaps = new Set(); for (let k = 0; k < holes; k++) gaps.add(Math.floor(rnd() * W));
+      for (let x = 0; x < W; x++) if (!gaps.has(x) && kind[idx(x, y)] === ROCK) kind[idx(x, y)] = BEDROCK;
+    }
+    for (let b = 0; b < Math.floor(lv / 2); b++) blob(Math.floor(rnd() * W), 10 + Math.floor(rnd() * 280), 4 + Math.floor(rnd() * 5), (x, y) => { kind[idx(x, y)] = BEDROCK; });
     // the heart chamber
     for (let y = 296; y <= HEART_Y; y++) for (let x = 3; x <= 11; x++) { kind[idx(x, y)] = AIR; aux[idx(x, y)] = 0; }
+    if (lv % 10 === 0) for (let x = 0; x < W; x++) kind[idx(x, 295)] = BEDROCK;
     kind[idx(SHAFT, HEART_Y)] = RELIC; aux[idx(SHAFT, HEART_Y)] = 15;
     return {kind, aux, vr};
   }
 
-  function blank(seed) {
-    const g = generate(seed);
+  function blank(seed, lv = 1) {
+    const g = generate(seed, lv);
     return {
-      seed, W, H, kind: g.kind, aux: g.aux, vr: g.vr, seen: new Uint8Array(W * H),
+      seed, W, H, lv, goal: Levels.spec(lv), hardMul: 1 + 0.025 * lv, oilMul: Math.max(0.7, 1 - 0.006 * lv), found: 0, burns: 0, lvBest: 0, cleared: false, kind: g.kind, aux: g.aux, vr: g.vr, seen: new Uint8Array(W * H),
       x: SHAFT, y: 0, fromX: SHAFT, fromY: 0, moveP: 1, face: 1, dir: [0, 1],
       up: {pick: 0, oil: 0, pack: 0, glass: 0}, cash: 0, bag: ORES.map(() => 0), oil: UP.oil.val[0],
       relics: Array(16).fill(false), charters: 0, best: 0, bestZone: 0, won: false,
@@ -274,7 +400,7 @@ const Core = (() => {
   }
 
   function create(o = {}) {
-    const s = blank(o.seed || 1);
+    const s = blank(o.seed || 1, o.lv || 1);
     if (o.up) Object.assign(s.up, o.up);
     if (o.relics) s.relics = o.relics.slice();
     s.charters = o.charters || 0; s.cash = o.cash || 0;
@@ -283,16 +409,16 @@ const Core = (() => {
   }
 
   const lvl = (s, k) => UP[k].val[s.up[k]];
-  const cap = (s, k) => lvl(s, k);
+  const cap = (s, k) => k === 'oil' ? lvl(s, k) * s.oilMul : lvl(s, k);
   const bagCount = s => s.bag.reduce((a, b) => a + b, 0);
   const price = (s, k) => s.up[k] >= 7 ? null : UP[k].cost[s.up[k]];
   const mult = s => (1 + 0.2 * s.charters) * (1 + 0.02 * s.relics.filter(Boolean).length);
-  const hardOf = (s, i) => { const k = s.kind[i]; const z = ZONES[zoneAt(Math.floor(i / W))].hard; return k === ORE ? z * ORES[s.aux[i]].hard : k === RELIC ? z * 1.2 : k === FLASK ? z * 1.1 : k === GAS ? z * 1.05 : z; };
+  const hardOf = (s, i) => { const k = s.kind[i]; const z = ZONES[zoneAt(Math.floor(i / W))].hard; return s.hardMul * (k === ORE ? z * ORES[s.aux[i]].hard : k === RELIC ? z * 1.2 : z); };
   const digTime = (s, i) => BASE_DIG * hardOf(s, i) / lvl(s, 'pick');
   const digCost = (s, i) => ZONES[zoneAt(Math.floor(i / W))].cost * (s.kind[i] === ORE ? 1.15 : 1);
   const oilFrac = s => s.oil / cap(s, 'oil');
   function lightRadius(s) {
-    const f = oilFrac(s), base = lvl(s, 'glass');
+    const f = oilFrac(s), base = lvl(s, 'glass') + 0.06 * s.relics.filter(Boolean).length;
     return base * (f > 0.25 ? 1 : 0.4 + 0.6 * Math.max(0, f) / 0.25);
   }
   function reveal(s, all) {
@@ -329,7 +455,10 @@ const Core = (() => {
   }
   function claimContract(s) {
     if (s.y !== 0 || s.contract.claimed || s.contract.progress < s.contract.target) return false;
-    s.cash += s.contract.reward; s.contract = {ore: (s.contract.ore + 1) % ORES.length, target: 4, progress: 0, reward: 180 + ((s.seed + s.t) % 5) * 40, claimed: false}; return true;
+    s.contract.claimed = true;
+    s.cash += s.contract.reward;
+    s.contract = {ore: (s.contract.ore + 1) % ORES.length, target: 4, progress: 0, reward: 180 + ((s.seed + s.t) % 5) * 40, claimed: false};
+    return true;
   }
   function useDynamite(s) {
     if (s.mode !== 'dive' || s.y === 0 || !s.dynamite) return [];
@@ -353,6 +482,7 @@ const Core = (() => {
   function arriveSurface(s, ev, rescued) {
     s.mode = 'dive'; s.haul = null; s.y = 0; s.fromY = 0; s.moveP = 1; s.dig = null;
     sell(s, ev, rescued);
+    Levels.check(s, ev, ev[ev.length - 1]);
   }
 
   function finishMove(s) { s.moveP = 1; s.fromX = s.x; s.fromY = s.y; }
@@ -389,11 +519,13 @@ const Core = (() => {
         if (s.y > 0) s.oil = Math.max(0, s.oil - MOVE_COST);
         if (s.y === 0 && s.fromY > 0) { arriveSurface(s, ev, false); }
         if (s.y > s.best) { s.best = s.y; }
+        if (s.y > s.lvBest) s.lvBest = s.y;
         if (s.y % ZROWS === 1) { s.atCamp = true; ev.push({t: 'camp', z: zoneAt(s.y)}); } else if (s.atCamp && s.y !== s.fromY) s.atCamp = false;
         const z = zoneAt(s.y);
         if (s.y > 0 && z > s.bestZone) { s.bestZone = z; ev.push({t: 'zone', z}); }
         reveal(s);
       } else {
+        if (k === BEDROCK) { s.dig = null; s.hitT += dt; if (s.hitT >= HIT_EVERY) { s.hitT = 0; ev.push({t: 'clang', x: nx, y: ny}); } return ev; }
         if (!s.dig || s.dig.i !== i) s.dig = {i, p: 0, x: nx, y: ny};
         s.dig.p += dt / digTime(s, i);
         s.hitT += dt;
@@ -406,12 +538,12 @@ const Core = (() => {
           if (was === ORE) {
             if (bagCount(s) < cap(s, 'pack')) { s.bag[a]++; s.oreMined[a]++; if (a === s.contract.ore) s.contract.progress++; ev.push({t: 'got', ore: a, x: nx, y: ny}); }
             else ev.push({t: 'full', ore: a, x: nx, y: ny});
-          } else if (was === LAVA) { s.oil = Math.max(0, s.oil - LAVA_COST); ev.push({t: 'lava', x: nx, y: ny}); }
+          }           else if (was === LAVA) { s.oil = Math.max(0, s.oil - LAVA_COST); s.burns++; if (s.goal.type === 'clean') ev.push({t: 'fail'}); ev.push({t: 'lava', x: nx, y: ny}); }
           else if (was === FLASK) { s.flasks++; s.oil = Math.min(cap(s, 'oil'), s.oil + cap(s, 'oil') * 0.35); ev.push({t: 'flask', x: nx, y: ny}); }
           else if (was === GAS) { s.gas = 6; ev.push({t: 'gas', x: nx, y: ny}); }
           else if (was === RELIC) {
             const first = !s.relics[a]; s.relics[a] = true;
-            ev.push({t: 'relic', id: a, first});
+            s.found++; Levels.gate(s, ev); ev.push({t: 'relic', id: a, first});
             if (a === 15) { s.won = true; ev.push({t: 'heart'}); }
           }
           reveal(s);
@@ -430,10 +562,11 @@ const Core = (() => {
   }
 
   function charter(s, seed) {
-    const n = create({seed, relics: s.relics, charters: s.charters + 1});
+    const n = create({seed, lv: 1, up: s.up, relics: s.relics, charters: s.charters + 1, cash: s.cash});
     n.best = 0; n.bestZone = 0;
     return n;
   }
+  function next(s) { return create({seed: Levels.seed(s.lv + 1), lv: s.lv + 1, up: s.up, relics: s.relics, charters: s.charters, cash: s.cash}); }
   function plantTorch(s) {
     if (s.y === 0 || s.mode !== 'dive') return false;
     if (s.torches.some(t => t.x === s.x && t.y === s.y)) return false;
@@ -444,11 +577,11 @@ const Core = (() => {
   // saves: only what cannot be rebuilt. The world is the seed plus which cells are dug.
   function pack(s) {
     const bits = new Uint8Array(Math.ceil(W * H / 8));
-    const base = generate(s.seed).kind;
+    const base = generate(s.seed, s.lv).kind;
     for (let i = 0; i < W * H; i++) if (s.kind[i] === AIR && base[i] !== AIR) bits[i >> 3] |= 1 << (i & 7);
     let b = ''; bits.forEach(v => b += String.fromCharCode(v));
     return {v: 1, seed: s.seed, cash: s.cash, up: [s.up.pick, s.up.oil, s.up.pack, s.up.glass], bag: s.bag.slice(), oil: Math.round(s.oil * 10) / 10,
-      x: s.x, y: s.y, relics: s.relics.reduce((a, r, i) => a | (r ? 1 << i : 0), 0), charters: s.charters, best: s.best, bestZone: s.bestZone, won: s.won, dug: btoaSafe(b),
+      x: s.x, y: s.y, relics: s.relics.reduce((a, r, i) => a | (r ? 1 << i : 0), 0), charters: s.charters, best: s.best, bestZone: s.bestZone, won: s.won, lv: s.lv, found: s.found, burns: s.burns, lb: s.lvBest, dug: btoaSafe(b),
       oreMined: s.oreMined.slice(), sold: s.sold, bestHaul: s.bestHaul, flasks: s.flasks, torches: s.torches.slice(), dynamite: s.dynamite,
       demand: s.demand.slice(), contract: s.contract, gas: s.gas, atCamp: s.atCamp};
   }
@@ -459,7 +592,7 @@ const Core = (() => {
   function unpack(o) {
     if (!o || o.v !== 1) return null;
     try {
-      const s = blank(int(o.seed, 1, 4294967295, 1));
+      const s = blank(int(o.seed, 1, 4294967295, 1), int(o.lv, 1, 50, 1));
       const u = Array.isArray(o.up) ? o.up : [];
       TRACKS.forEach((k, i) => { s.up[k] = int(u[i], 0, 7, 0); });
       s.cash = int(o.cash, 0, 1e12, 0); s.charters = int(o.charters, 0, 999, 0);
@@ -477,6 +610,7 @@ const Core = (() => {
       let left = cap(s, 'pack'); s.bag = s.bag.map(n => { const m = Math.min(n, left); left -= m; return m; });
       const raw = atobSafe(String(o.dug || ''));
       for (let i = 0; i < W * H && (i >> 3) < raw.length; i++) if (raw.charCodeAt(i >> 3) >> (i & 7) & 1 && s.kind[i] !== AIR) { s.kind[i] = AIR; s.aux[i] = 0; }
+      s.found = int(o.found, 0, 99, 0); s.burns = int(o.burns, 0, 99, 0); s.lvBest = int(o.lb, 0, HEART_Y, 0); Levels.gate(s);
       s.x = int(o.x, 0, W - 1, SHAFT); s.y = int(o.y, 0, H - 1, 0);
       if (s.kind[idx(s.x, s.y)] !== AIR) { s.x = SHAFT; s.y = 0; }
       s.fromX = s.x; s.fromY = s.y;
@@ -492,7 +626,7 @@ const Core = (() => {
     } catch (e) { return null; }
   }
 
-  return {W, H, SHAFT, HEART_Y, AIR, ROCK, ORE, LAVA, RELIC, FLASK, GAS, ZONES, ORES, RELICS, UP, TRACKS, IDLE, BASE_DIG,
+  return {W, H, SHAFT, HEART_Y, AIR, ROCK, ORE, LAVA, RELIC, BEDROCK, FLASK, GAS, Levels, next, ZONES, ORES, RELICS, UP, TRACKS, IDLE, BASE_DIG,
     create, generate, step, haul, camp, buy, buyDynamite, useDynamite, claimContract, price, charter, plantTorch, pack, unpack, idx, zoneAt, depthM, lightRadius, bagCount, cap, lvl, mult, digTime, oilFrac, hardOf, mulberry};
 })();
 </script>
@@ -609,6 +743,10 @@ const Art = (() => {
       return c;
     });
   }
+  function bedrock(z, v) { return get('b' + z + v, () => { const [c, g] = mk();
+    px(g, 0, 0, '#1b1722', L, L); px(g, 1, 1, '#2c2636', 14, 14); px(g, 1, 1, '#3a3347', 14, 1); px(g, 1, 14, '#0d0a12', 14, 1);
+    [[3, 3], [11, 3], [3, 11], [11, 11]].forEach(([x, y]) => px(g, x, y, '#6a5f7a', 2, 2));
+    px(g, 5, 7, '#0d0a12', 6, 1); px(g, 7, 5, '#0d0a12', 1, 6); return c; }); }
   function crack(stage) {
     return get('k' + stage, () => {
       const [c, g] = mk(); const col = 'rgba(15,8,6,.85)';
@@ -699,12 +837,12 @@ const Art = (() => {
     gl.addColorStop(0, 'rgba(255,200,110,.35)'); gl.addColorStop(1, 'rgba(255,200,110,0)'); ctx.fillStyle = gl; ctx.fillRect(lx - cell * 2, groundY - cell * 3.5, cell * 4, cell * 4);
   }
 
-  return {L, ZP, OP, hash, setScale, rock, air, ore, relicTile, lavaTile, crack, miner, drawPick, sky, surfaceProps, scale: () => S};
+  return {L, ZP, OP, hash, setScale, rock, air, ore, relicTile, lavaTile, bedrock, crack, miner, drawPick, sky, surfaceProps, scale: () => S};
 })();
 </script>
 <script id="render">
 const Render = (() => {
-  const {W, H, AIR, ROCK, ORE, LAVA, RELIC, FLASK, GAS} = Core;
+  const {W, H, AIR, ROCK, ORE, LAVA, RELIC, BEDROCK, FLASK, GAS} = Core;
   const L = Art.L;
   const ease = p => p * p * (3 - 2 * p);
   const reduce = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -785,6 +923,7 @@ const Render = (() => {
           if (s.dig && s.dig.i === i && !reduce()) { jx = (Math.random() - .5) * S * 1.6; jy = (Math.random() - .5) * S * 1.6; }
           const ddx = dx + jx, ddy = dy + jy;
           if (k === LAVA) { ctx.drawImage(Art.lavaTile(Math.floor(t * 2.5 + v) % 3, v), ddx, ddy); }
+          else if (k === BEDROCK) { ctx.drawImage(Art.bedrock(z, v), ddx, ddy); }
           else {
             ctx.drawImage(Art.rock(z, v, m, y === 1), ddx, ddy);
             if (k === ORE) {
@@ -938,7 +1077,7 @@ const Render = (() => {
 <script id="main">
 (() => {
   const $ = id => document.getElementById(id);
-  const KEY = 'wick.v1', MUTE = 'wick.mute', SEEN = 'wick.seen';
+  const KEY = 'wick.v2', MUTE = 'wick.mute', SEEN = 'wick.seen';
   const ZC = ['#e0955f', '#f2efd9', '#8fd3d9', '#ff9a55', '#9da2ff'];
   const fmt = n => Math.round(n).toLocaleString('en-US');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1009,7 +1148,7 @@ const Render = (() => {
   const load = () => { try { const o = JSON.parse(store.get(KEY) || 'null'); return Core.unpack(o); } catch (e) { return null; } };
   const randSeed = () => 1 + Math.floor(Math.random() * 4294967294);
   if (sharedSeed) s = Core.create({seed: sharedSeed});
-  else { s = load(); if (!s) { s = Core.create({seed: randSeed()}); fresh = !store.get(SEEN); } }
+  else { s = load(); if (!s) { s = Core.create({seed: Core.Levels.seed(1)}); fresh = !store.get(SEEN); } }
   let dirty = false, saveT = 0;
   const save = () => { if (sharedSeed) return; try { store.set(KEY, JSON.stringify(Core.pack(s))); dirty = false; } catch (e) {} };
 
@@ -1019,7 +1158,7 @@ const Render = (() => {
   fit(); addEventListener('resize', fit);
 
   // ---------- hud ----------
-  const el = {dep: $('dep'), zone: $('zone'), cash: $('cash'), oilb: $('oilb'), packb: $('packb'), packn: $('packn'), goil: $('goil'), gpack: $('gpack'), haul: $('haul'), surf: $('surf'), hint: $('hint'), title: $('title'), toast: $('toast'), zb: $('zonebanner'), zbn: $('zbname'), black: $('black'), sheetwrap: $('sheetwrap'), sheet: $('sheet')};
+  const el = {dep: $('dep'), zone: $('zone'), cash: $('cash'), oilb: $('oilb'), packb: $('packb'), packn: $('packn'), goil: $('goil'), gpack: $('gpack'), haul: $('haul'), surf: $('surf'), hint: $('hint'), title: $('title'), toast: $('toast'), goal: $('goal'), zb: $('zonebanner'), zbn: $('zbname'), black: $('black'), sheetwrap: $('sheetwrap'), sheet: $('sheet')};
   const last = {};
   const setT = (k, node, v) => { if (last[k] !== v) { last[k] = v; node.textContent = v; } };
   function hud() {
@@ -1028,6 +1167,7 @@ const Render = (() => {
     const z = Core.zoneAt(Math.round(hy)), zn = Math.round(hy) === 0 ? 'Surface' : Core.ZONES[z].name;
     setT('zone', el.zone, zn); if (last.zc !== z) { last.zc = z; el.zone.style.setProperty('--zc', ZC[z]); document.documentElement.style.setProperty('--zc', ZC[z]); }
     setT('cash', el.cash, fmt(s.cash));
+    setT('goal', el.goal, 'L' + s.lv + ' · ' + Core.Levels.text(s));
     const of = Core.oilFrac(s), bag = Core.bagCount(s), cap = Core.cap(s, 'pack');
     const ov = (of * 100).toFixed(1) + '%'; if (last.ov !== ov) { last.ov = ov; el.oilb.style.setProperty('--v', ov); }
     const pv = (bag / cap * 100).toFixed(1) + '%'; if (last.pv !== pv) { last.pv = pv; el.packb.style.setProperty('--v', pv); }
@@ -1054,7 +1194,7 @@ const Render = (() => {
     el.sheetwrap.classList.add('on'); el.hint.classList.add('hide');
     const b = el.sheet.querySelector('button'); if (b) setTimeout(() => b.focus({preventScroll: true}), 60);
   }
-  function closeSheet() { if (!sheetOpen) return; sheetOpen = false; el.sheetwrap.classList.remove('on'); const f = onClose; onClose = null; if (f) f(); }
+  function closeSheet() { if (!sheetOpen) return; sheetOpen = false; el.sheetwrap.classList.remove('on'); const f = onClose; onClose = null; if (f) f(); if (pendingLevel) { pendingLevel = false; setTimeout(levelCard, 350); } }
   const oreName = i => Core.ORES[i].name;
   const OC = Art.OP.map(o => o.c);
   const haptic = pattern => { if ('vibrate' in navigator) navigator.vibrate(pattern); };
@@ -1113,6 +1253,12 @@ const Render = (() => {
     $('rDone').onclick = () => { Snd.uiTap(); closeSheet(); };
   }
   let justFound = -1;
+  let pendingLevel = false, clanged = false;
+  function levelCard() {
+    const bonus = Core.Levels.bonus(s.lv), fin = s.lv >= 50; s.cash += bonus; save();
+    openSheet(`<h2>Level ${s.lv} cleared</h2><div class="sub">${fin ? 'The mine is finished' : 'Bonus paid ' + fmt(bonus)}</div><p style="font:600 19px var(--cond);margin:0 0 14px;color:#4a3216">${fin ? 'All 50 levels done. Sign a new charter to start again with +20% prices.' : 'Next: ' + Core.Levels.text(Core.Levels.preview(s.lv + 1))}</p><button class="btn" id="lNext">${fin ? 'Sign a new charter' : 'Level ' + (s.lv + 1)}</button>`);
+    $('lNext').onclick = () => { Snd.uiTap(); s = fin ? Core.charter(s, randSeed()) : Core.next(s); R.cam.init = false; for (const k in last) delete last[k]; closeSheet(); save(); };
+  }
   function heartCard() {
     openSheet(`<h2>The Deep Heart</h2><div class="sub">The bottom of the world</div><p style="font:600 19px var(--cond);margin:0 0 14px;color:#4a3216">It beats once, slowly, in time with your lamp. You are the first to hold it. Sign a new charter and the mine reseals: your gear is spent, but prices stay ${(20)}% higher for good, and every relic is yours to keep.</p><button class="btn" id="cNew">Sign a new charter</button><div style="height:10px"></div><button class="btn ghost" id="cStay">Keep digging here</button>`);
     $('cNew').onclick = () => { Snd.uiTap(); s = Core.charter(s, randSeed()); save(); R.cam.init = false; for (const k in last) delete last[k]; closeSheet(); toast('Charter ' + s.charters + ' signed', 2400); };
@@ -1188,12 +1334,16 @@ const Render = (() => {
         case 'flask': haptic(18); Snd.cash(); toast('Oil flask found · lamp refilled'); R.pop(s.x, s.y - 0.7, '+OIL', '#ffb43b'); break;
         case 'gas': haptic([10, 20, 10]); toast('Gas pocket! The lamp is burning faster', 2200); break;
         case 'dynamite': haptic([25, 35, 25]); Snd.brk(z); R.kick(1.2); toast(e.lava ? 'Dynamite ignited lava!' : 'Blast cleared ' + e.cleared + ' cells', 1800); break;
+        case 'clang': Snd.deny(); R.kick(0.2); R.burst(e.x, e.y, ['#6a5f7a', '#3a3347'], 3, 0.6); if (!clanged) { clanged = true; toast('Bedrock: dig around it'); } break;
+        case 'gate': R.flashScreen('#ffe9a8', 0.4); Snd.relic(); toast('The seal cracks open', 2600); break;
         case 'camp': toast('Camp reached · you can sell safely', 2000); break;
         case 'campSold': toast('Camp provisions paid out', 1600); break;
         case 'relic': R.flashScreen('#ffe9a8', 0.4); R.burst(e.x !== undefined ? e.x : s.x, s.y, ['#ffe9a8', '#fff', '#d29a3a'], 24, 1.6); Snd.relic(); justFound = e.id; save();
           haptic([20, 40, 20]);
           if (e.id !== 15) { toast(Core.RELICS[e.id] + (e.first ? ' · relic found' : ''), 2600); } break;
-        case 'heart': setTimeout(heartCard, 1400); break;
+        case 'heart': toast('Deep Heart taken: haul it up', 3000); break;
+        case 'fail': toast('Burned! Level restarts', 1500); setTimeout(() => { s = Core.create({seed: s.seed, lv: s.lv, up: s.up, relics: s.relics, charters: s.charters, cash: s.cash}); R.cam.init = false; for (const k in last) delete last[k]; }, 900); break;
+        case 'level': pendingLevel = true; if (!sheetOpen) setTimeout(() => { if (pendingLevel && !sheetOpen) { pendingLevel = false; levelCard(); } }, 1200); break;
         case 'zone': if (e.z > 0) { zoneBanner(e.z); Snd.zonein(); } break;
         case 'haul': Snd.haul(e.dur); toast('Hauling up…', 1000); break;
         case 'out': Snd.out(); el.black.classList.add('on'); toast('The lamp is out', 2000); break;
@@ -1220,6 +1370,13 @@ const Render = (() => {
     if (dirty && (saveT += dt) > 3) { saveT = 0; save(); }
     requestAnimationFrame(frame);
   }
+  function startLevel(n) {
+    const target = Math.max(1, Math.min(50, Math.floor(n)));
+    const unlocked = target <= s.lv || (s.cleared && target === s.lv + 1);
+    if (!unlocked) return false;
+    s = Core.create({seed: Core.Levels.seed(target), lv: target, up: s.up, relics: s.relics, charters: s.charters, cash: s.cash});
+    R.cam.init = false; for (const k in last) delete last[k]; save(); return true;
+  }
   if (sharedSeed) toast('Seed ' + sharedSeed + ' · progress is not saved', 3200);
   else if (!fresh) el.hint.classList.add('hide');
   if (fresh) store.set(SEEN, '1');
@@ -1227,7 +1384,7 @@ const Render = (() => {
   requestAnimationFrame(frame);
 
   // exposed for tests and the filmstrip
-  window.__wick = {get s() { return s; }, get fresh() { return fresh; }, get sharedSeed() { return sharedSeed; }, Core, R, Snd, toast, save, handle, assay, workshop, relics, heartCard, held: () => held, setDir: d => { held = d ? [d[0] < 0 ? 'l' : d[0] > 0 ? 'r' : d[1] < 0 ? 'u' : 'd'] : []; }};
+  window.__wick = {get s() { return s; }, get fresh() { return fresh; }, get sharedSeed() { return sharedSeed; }, Core, R, Snd, toast, save, startLevel, handle, assay, workshop, relics, heartCard, held: () => held, setDir: d => { held = d ? [d[0] < 0 ? 'l' : d[0] > 0 ? 'r' : d[1] < 0 ? 'u' : 'd'] : []; }};
 })();
 </script>
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -1254,7 +1411,7 @@ const Render = (() => {
   ];
   function ReactTools() {
     const [w, setW] = useState(window.__wick);
-    const [panel, setPanel] = useState(null);
+    const [panel, setPanel] = useState(() => new URLSearchParams(location.search).has('levels') ? 'levels' : null);
     const [tour, setTour] = useState(() => window.__wick && window.__wick.fresh && !window.__wick.sharedSeed && !localStorage.getItem(TOUR_KEY) ? 0 : null);
     const [, refresh] = useState(0);
     useEffect(() => {
@@ -1292,6 +1449,7 @@ const Render = (() => {
     };
     const closeContract = () => setPanel(null);
     const stats = () => setPanel('stats');
+    const levels = () => setPanel('levels');
     const board = () => setPanel('contract');
     const guide = () => setTour(0);
     const finishTour = () => { localStorage.setItem(TOUR_KEY, '1'); setTour(null); };
@@ -1303,6 +1461,7 @@ const Render = (() => {
         React.createElement('button', {onClick: share}, 'Share on X'),
         React.createElement('button', {onClick: guide}, 'Guide'),
         React.createElement('button', {onClick: stats}, 'Stats'),
+        React.createElement('button', {onClick: levels}, 'Levels'),
         s.y === 0 && React.createElement('button', {onClick: board}, 'Job board'),
         s.y > 0 && s.mode === 'dive' && React.createElement('button', {onClick: plant}, 'Torch'),
         s.y > 0 && s.mode === 'dive' && s.dynamite > 0 && React.createElement('button', {onClick: blast}, 'Blast ×' + s.dynamite),
@@ -1324,6 +1483,35 @@ const Render = (() => {
           React.createElement('p', null, 'Torches planted: ' + (s.torches || []).length),
           React.createElement('p', null, 'Contract: bring ' + s.contract.target + ' ' + w.Core.ORES[s.contract.ore].name + ' (' + Math.min(s.contract.progress, s.contract.target) + '/' + s.contract.target + ') for +' + s.contract.reward),
           React.createElement('button', {className: 'btn', onClick: () => setPanel(null)}, 'Close')
+        )
+      ),
+      panel === 'levels' && React.createElement('div', {className: 'react-panel level-panel'},
+        React.createElement('section', {className: 'level-page'},
+          React.createElement('header', {className: 'level-head'},
+            React.createElement('div', null,
+              React.createElement('div', {className: 'level-kicker'}, 'Wick expedition'),
+              React.createElement('h2', null, 'Choose your level'),
+              React.createElement('p', null, 'Climb deeper. Bring the light home.')
+            ),
+            React.createElement('button', {className: 'btn ghost level-close', onClick: () => setPanel(null), 'aria-label': 'Close level select'}, '×')
+          ),
+          React.createElement('div', {className: 'level-road'},
+            React.createElement('div', {className: 'level-track'},
+              Array.from({length: 50}, (_, i) => {
+                const n = i + 1, unlocked = n <= s.lv || (s.cleared && n === s.lv + 1), cleared = n < s.lv || (n === s.lv && s.cleared), current = n === s.lv && !s.cleared;
+                const goal = w.Core.Levels.spec(n);
+                const label = goal.type === 'heart' ? 'Heart level' : goal.type === 'relics' ? goal.n + ' relic' + (goal.n === 1 ? '' : 's') : goal.type === 'depth' ? (goal.n * 2) + 'm depth' : goal.type === 'ore' ? 'Ore haul' : goal.type === 'earn' ? Math.round(goal.n).toLocaleString() + ' haul' : goal.n + ' relics · clean';
+                return React.createElement('div', {key: n, className: 'level-node ' + (unlocked ? 'unlocked ' : '') + (cleared ? 'cleared ' : '') + (current ? 'current' : '')},
+                  React.createElement('div', {className: 'level-dot'}, cleared ? '✓' : n),
+                  React.createElement('button', {className: 'level-card', disabled: !unlocked, onClick: () => { if (w.startLevel(n)) setPanel(null); }},
+                    React.createElement('div', {className: 'level-card-top'}, React.createElement('b', null, 'Level ' + n), React.createElement('small', null, n % 10 === 0 ? 'SPECIAL' : 'EXPEDITION')),
+                    React.createElement('strong', null, label),
+                    React.createElement('span', null, unlocked ? (cleared ? 'Completed · replay' : current ? 'Current expedition' : 'Ready to ride') : React.createElement('span', {className: 'lock'}, '🔒 Locked'))
+                  )
+                );
+              })
+            )
+          )
         )
       ),
       panel === 'contract' && React.createElement('div', {className: 'react-panel', onClick: e => { if (e.target === e.currentTarget) setPanel(null); }},
