@@ -125,6 +125,15 @@ button{font:inherit;color:inherit;cursor:pointer;border:0}
 .react-tools{position:absolute;right:calc((100vw - var(--colw,100vw))/2 + 14px);top:calc(10px + var(--safe-t));display:flex;gap:7px;pointer-events:auto}
 .react-tools button{min-height:38px;padding:0 11px;border-radius:10px;background:#2a1b32;color:var(--cream);box-shadow:inset 0 0 0 1px #5a4166;font:700 14px var(--cond);letter-spacing:.6px}
 .react-tools button.primary{background:var(--amber);color:var(--ink);box-shadow:0 3px 0 #8a560c}
+.mobile-menu{display:none}
+.mobile-nav-page{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:calc(24px + var(--safe-t)) 18px calc(24px + var(--safe-b));background:linear-gradient(145deg,#2a1730,#0b0711 72%);color:var(--cream)}
+.mobile-nav-card{width:min(430px,100%);padding:22px 16px;border-radius:22px;background:linear-gradient(#f6ecd0,#e9d9ac);color:var(--ink);box-shadow:0 12px 40px #000b,inset 0 0 0 3px #c9b17a}
+.mobile-nav-card h2{margin:0 0 4px;font:400 28px var(--slab)}
+.mobile-nav-card p{margin:0 0 16px;font:600 16px var(--cond);color:#6a4c22}
+.mobile-nav-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.mobile-nav-grid .btn{min-height:54px;padding:0 8px;font-size:16px;text-align:center}
+.mobile-nav-grid .btn.primary{background:linear-gradient(var(--amber),#f09a1e)}
+.mobile-nav-grid .btn.close{grid-column:1/-1;background:linear-gradient(#3a2742,#2a1b32);color:var(--cream);box-shadow:0 4px 0 #120a14}
 .react-panel{position:absolute;inset:0;display:grid;place-items:center;padding:20px;pointer-events:auto;background:#07060dcc}
 .react-card{width:min(520px,100%);max-height:84vh;overflow:auto;border-radius:20px;padding:20px;background:linear-gradient(#f6ecd0,#e9d9ac);color:var(--ink);box-shadow:0 12px 40px #000b}
 .react-card h2{margin:0 0 12px;font:400 28px var(--slab)}.react-card p{font:600 17px var(--cond);color:#6a4c22}
@@ -193,6 +202,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0}
   #haul{width:66px;height:66px;font-size:12px}.mini{width:44px;height:44px}
   #snd{left:10px;bottom:calc(14px + var(--safe-b));width:40px;height:40px}
   .react-tools{display:none}
+  .mobile-menu{display:flex;position:absolute;right:calc(76px + var(--safe-t));top:calc(7px + var(--safe-t));z-index:4;width:42px;height:40px;align-items:center;justify-content:center;border-radius:13px;background:linear-gradient(#3a2742,#2a1b32);color:var(--cream);box-shadow:0 4px 0 #120a14,inset 0 0 0 2px #5a4166;font:700 21px var(--cond);pointer-events:auto}
   .sheet{width:100%;max-height:91%;padding:16px 14px calc(14px + var(--safe-b));border-radius:18px 18px 0 0}
   .sheet h2{font-size:24px}.sheet .sub{font-size:12px}
   .up{grid-template-columns:40px 1fr auto;gap:2px 8px;padding:9px 0}.up .ic{width:40px;height:40px}.up .buy{min-height:44px;padding:0 9px;font-size:15px}
@@ -1453,9 +1463,13 @@ const Render = (() => {
     const guide = () => setTour(0);
     const finishTour = () => { localStorage.setItem(TOUR_KEY, '1'); setTour(null); };
     const nextTour = () => tour === TOUR.length - 1 ? finishTour() : setTour(tour + 1);
+    const mobileNav = () => setPanel('nav');
+    const closeNav = () => setPanel(null);
+    const runDaily = () => { location.href = '?seed=' + daily; };
     return React.createElement(React.Fragment, null,
+      React.createElement('button', {className: 'mobile-menu', onClick: mobileNav, 'aria-label': 'Open menu'}, '☰'),
       React.createElement('div', {className: 'react-tools'},
-        React.createElement('button', {className: 'primary', onClick: () => { location.href = '?seed=' + daily; }}, 'Daily Dig'),
+        React.createElement('button', {className: 'primary', onClick: runDaily}, 'Daily Dig'),
         React.createElement('button', {onClick: copy}, 'Copy link'),
         React.createElement('button', {onClick: share}, 'Share on X'),
         React.createElement('button', {onClick: guide}, 'Guide'),
@@ -1466,6 +1480,28 @@ const Render = (() => {
         s.y > 0 && s.mode === 'dive' && s.dynamite > 0 && React.createElement('button', {onClick: blast}, 'Blast ×' + s.dynamite),
         s.atCamp && React.createElement('button', {onClick: campSell}, 'Sell at camp'),
         s.y === 0 && !s.contract.claimed && React.createElement('button', {onClick: claim}, 'Claim job')
+      ),
+      panel === 'nav' && React.createElement('div', {className: 'react-panel', onClick: e => { if (e.target === e.currentTarget) closeNav(); }},
+        React.createElement('section', {className: 'mobile-nav-page'},
+          React.createElement('div', {className: 'mobile-nav-card'},
+            React.createElement('h2', null, 'Wick menu'),
+            React.createElement('p', null, 'Everything in one place'),
+            React.createElement('div', {className: 'mobile-nav-grid'},
+              React.createElement('button', {className: 'btn primary', onClick: runDaily}, 'Daily Dig'),
+              React.createElement('button', {className: 'btn ghost', onClick: copy}, 'Copy link'),
+              React.createElement('button', {className: 'btn ghost', onClick: share}, 'Share on X'),
+              React.createElement('button', {className: 'btn ghost', onClick: guide}, 'Guide'),
+              React.createElement('button', {className: 'btn ghost', onClick: stats}, 'Stats'),
+              React.createElement('button', {className: 'btn ghost', onClick: levels}, 'Levels'),
+              s.y === 0 && React.createElement('button', {className: 'btn ghost', onClick: board}, 'Job board'),
+              s.y === 0 && !s.contract.claimed && React.createElement('button', {className: 'btn ghost', onClick: claim}, 'Claim job'),
+              s.y > 0 && s.mode === 'dive' && React.createElement('button', {className: 'btn ghost', onClick: plant}, 'Torch'),
+              s.y > 0 && s.mode === 'dive' && s.dynamite > 0 && React.createElement('button', {className: 'btn ghost', onClick: blast}, 'Blast ×' + s.dynamite),
+              s.atCamp && React.createElement('button', {className: 'btn ghost', onClick: campSell}, 'Sell at camp'),
+              React.createElement('button', {className: 'btn close', onClick: closeNav}, 'Back to game')
+            )
+          )
+        )
       ),
       panel === 'stats' && React.createElement('div', {className: 'react-panel', onClick: e => { if (e.target === e.currentTarget) setPanel(null); }},
         React.createElement('section', {className: 'react-card'},
